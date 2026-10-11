@@ -1,3 +1,4 @@
+import "../categories/category.model.js";
 import Product from "./product.model.js";
 
 // Get all products with filtering, sorting, pagination
