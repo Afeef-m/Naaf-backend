@@ -1,27 +1,31 @@
+
 import express from "express";
 import cors from "cors";
 import connectDB from "./config/db.js";
 import productRoutes from "./modules/products/product.routes.js";
+import authRoutes from "./modules/auth/auth.routes.js";
 
 const app = express();
 
 const allowedOrigins = [
   "http://localhost:3000",
-  "https://naaf-glamoria-one.vercel.app",
+  "https://naaf-glamoria-two.vercel.app",
 ];
 
 app.use(
   cors({
     origin: allowedOrigins,
     credentials: true,
-  }),
+  })
 );
 
-app.use(express.json());
+app.use(express.json({ limit: "1mb" }));
 
 app.get("/", (req, res) => {
   res.json({ message: "Naaf API is running" });
 });
+
+app.use("/api/v1/auth", authRoutes);
 
 app.use("/api/v1/products", async (req, res, next) => {
   try {
@@ -29,7 +33,9 @@ app.use("/api/v1/products", async (req, res, next) => {
     next();
   } catch (error) {
     console.error("MongoDB connection failed:", error.message);
+
     res.status(503).json({
+      success: false,
       message: "Database connection unavailable",
     });
   }
