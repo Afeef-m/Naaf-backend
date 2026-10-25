@@ -25,21 +25,21 @@ app.get("/", (req, res) => {
   res.json({ message: "Naaf API is running" });
 });
 
-app.use("/api/v1/auth", authRoutes);
-
-app.use("/api/v1/products", async (req, res, next) => {
+app.use("/api/v1", async (req, res, next) => {
   try {
     await connectDB();
     next();
   } catch (error) {
     console.error("MongoDB connection failed:", error.message);
 
-    res.status(503).json({
+    return res.status(503).json({
       success: false,
       message: "Database connection unavailable",
     });
   }
 });
+
+app.use("/api/v1/auth", authRoutes);
 
 app.use("/api/v1/products", productRoutes);
 

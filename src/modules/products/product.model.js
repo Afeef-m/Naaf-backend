@@ -65,7 +65,6 @@ const productSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-/* Indexes for performance */
 productSchema.index({ price: 1 });
 productSchema.index({ createdAt: -1 });
 
