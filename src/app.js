@@ -7,6 +7,8 @@ import authRoutes from "./modules/auth/auth.routes.js";
 
 const app = express();
 
+app.set("trust proxy", 1);
+
 const allowedOrigins = [
   "http://localhost:3000",
   "https://naaf-glamoria-two.vercel.app",
@@ -40,7 +42,6 @@ app.use("/api/v1", async (req, res, next) => {
 });
 
 app.use("/api/v1/auth", authRoutes);
-
 app.use("/api/v1/products", productRoutes);
 
 export default app;
