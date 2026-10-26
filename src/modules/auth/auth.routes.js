@@ -3,6 +3,7 @@ import { Router } from "express";
 import rateLimit from "express-rate-limit";
 import requireAdmin from "../../middleware/require-admin.js";
 import {
+  setupAdmin,
   login,
   refresh,
   logout,
@@ -23,6 +24,7 @@ const authLimiter = rateLimit({
 });
 
 // Admin authentication routes
+router.post("/setup", authLimiter, setupAdmin);
 router.post("/login", authLimiter, login);
 router.post("/refresh", authLimiter, refresh);
 router.post("/logout", logout);

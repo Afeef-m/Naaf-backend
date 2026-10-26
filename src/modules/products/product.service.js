@@ -112,3 +112,11 @@ export const deleteProduct = async (id) => {
 
   return product;
 };
+
+export const debugProductDatabase = async () => {
+  return {
+    database: mongoose.connection.name,
+    collection: Product.collection.name,
+    productCount: await Product.countDocuments({}),
+  };
+};

@@ -1,12 +1,18 @@
+import mongoose from "mongoose";
 import * as productService from "./product.service.js";
 
 export const getProducts = async (req, res, next) => {
   try {
     const result = await productService.getAllProducts(req.query);
+    console.log("PRODUCT DATABASE CHECK:", {
+      database: mongoose.connection.name,
+      collection: "products",
+      total: result.pagination.total,
+    });
 
     res.json({
       success: true,
-      ...result
+      ...result,
     });
   } catch (err) {
     next(err);
@@ -19,7 +25,7 @@ export const getProductBySlug = async (req, res, next) => {
 
     res.json({
       success: true,
-      data: product
+      data: product,
     });
   } catch (err) {
     next(err);
@@ -32,13 +38,12 @@ export const getFeaturedProducts = async (req, res, next) => {
 
     res.json({
       success: true,
-      data: products
+      data: products,
     });
   } catch (err) {
     next(err);
   }
 };
-
 
 export const createProduct = async (req, res, next) => {
   try {
@@ -55,9 +60,7 @@ export const createProduct = async (req, res, next) => {
     ];
 
     const data = Object.fromEntries(
-      Object.entries(req.body).filter(([key]) =>
-        allowedFields.includes(key)
-      )
+      Object.entries(req.body).filter(([key]) => allowedFields.includes(key)),
     );
 
     const product = await productService.createProduct(data);
@@ -87,9 +90,7 @@ export const updateProduct = async (req, res, next) => {
     ];
 
     const data = Object.fromEntries(
-      Object.entries(req.body).filter(([key]) =>
-        allowedFields.includes(key)
-      )
+      Object.entries(req.body).filter(([key]) => allowedFields.includes(key)),
     );
 
     if (Object.keys(data).length === 0) {
@@ -99,10 +100,7 @@ export const updateProduct = async (req, res, next) => {
       });
     }
 
-    const product = await productService.updateProduct(
-      req.params.id,
-      data
-    );
+    const product = await productService.updateProduct(req.params.id, data);
 
     res.status(200).json({
       success: true,
