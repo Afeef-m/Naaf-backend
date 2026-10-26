@@ -4,6 +4,7 @@ import cors from "cors";
 import connectDB from "./config/db.js";
 import productRoutes from "./modules/products/product.routes.js";
 import authRoutes from "./modules/auth/auth.routes.js";
+import categoryRoutes from "./modules/categories/category.routes.js";
 
 const app = express();
 
@@ -43,5 +44,6 @@ app.use("/api/v1", async (req, res, next) => {
 
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/products", productRoutes);
+app.use("/api/v1/categories", categoryRoutes);
 
 export default app;
