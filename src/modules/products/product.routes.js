@@ -6,7 +6,17 @@ const router = express.Router();
 
 router.get("/", controller.getProducts);
 router.get("/featured", controller.getFeaturedProducts);
-router.post( "/upload-signature",requireAdmin, controller.createUploadSignature,);
+router.post(
+  "/upload-signature",
+  requireAdmin,
+  controller.createUploadSignature,
+);
+router.get("/upload-signature", (req, res) => {
+  res.set("Allow", "POST");
+  return res
+    .status(405)
+    .json({ success: false, message: "Method not allowed. Use POST." });
+});
 router.get("/:slug", controller.getProductBySlug);
 
 router.post("/", requireAdmin, controller.createProduct);
