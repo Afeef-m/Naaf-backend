@@ -1,68 +1,87 @@
 import mongoose from "mongoose";
 
+const imageAssetSchema = new mongoose.Schema(
+  {
+    url: {
+      type: String,
+      required: true,
+    },
+    publicId: {
+      type: String,
+      required: true,
+    },
+  },
+  { _id: false },
+);
+
 const productSchema = new mongoose.Schema(
   {
     slug: {
       type: String,
       required: true,
       unique: true,
-      index: true
+      index: true,
     },
 
     name: {
       en: { type: String, required: true },
-      ar: { type: String, required: true }
+      ar: { type: String, required: true },
     },
 
     description: {
       en: { type: String, required: true },
-      ar: { type: String, required: true }
+      ar: { type: String, required: true },
     },
 
     category: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Category",
       required: true,
-      index: true
+      index: true,
     },
 
     price: {
       type: Number,
       required: true,
-      min: 0
+      min: 0,
     },
 
     originalPrice: {
-      type: Number
+      type: Number,
     },
 
     images: {
       type: [String],
-      default: []
+      default: [],
+    },
+
+    imageAssets: {
+      type: [imageAssetSchema],
+      default: [],
     },
 
     rating: {
       type: Number,
-      default: 0
+      default: 0,
     },
 
     reviewsCount: {
       type: Number,
-      default: 0
+      default: 0,
     },
 
     isFeatured: {
       type: Boolean,
       default: false,
-      index: true
+      index: true,
     },
 
     stock: {
       type: Number,
-      default: 0
-    }
+      default: 0,
+    },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 productSchema.index({ price: 1 });

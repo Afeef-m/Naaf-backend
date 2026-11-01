@@ -6,6 +6,7 @@ const router = express.Router();
 
 router.get("/", controller.getProducts);
 router.get("/featured", controller.getFeaturedProducts);
+router.post( "/upload-signature",requireAdmin, controller.createUploadSignature,);
 router.get("/:slug", controller.getProductBySlug);
 
 router.post("/", requireAdmin, controller.createProduct);
